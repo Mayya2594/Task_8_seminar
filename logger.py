@@ -29,7 +29,7 @@ def input_data():
 
 
 def print_data():
-    print('Вывожу данные для Вас данные из 1-ого файла\n')
+    print('Вывожу данные для Вас из 1-ого файла\n')
     with open('data_first_variant.csv', 'r', encoding='utf-8') as file:
         data_first = file.readlines()
         data_first_version_second = []
@@ -41,12 +41,54 @@ def print_data():
                 j = i
         data_first = data_first_version_second
         print(''.join(data_first))
-    print('Вывожу данные для Вас данные из 2-ого файла\n')
+    print('Вывожу данные для Вас из 2-ого файла\n')
     with open('data_second_variant.csv', 'r', encoding='utf-8') as file:
         data_second = list(file.readlines())
         print(*data_second)
     return data_first, data_second
 
+def change_some_data(dataFile, numberRow, numberFile, parameter):
+    # answer = input(f"Изменить данную запись\n{dataFile[numberRow]}?\nВведите ответ: ")
+    # while answer != 'да':
+    #     numberRow = int(input('Введите номер записи: ')) - 1
+
+    # print(f"Меняем данную запись\n{dataFile[numberRow]}\n")
+    if numberFile == 1:
+        name = dataFile[numberRow].split('\n')[0]
+        surname = dataFile[numberRow].split('\n')[1]
+        phone = dataFile[numberRow].split('\n')[2]
+        address = dataFile[numberRow].split('\n')[3]
+    if numberFile == 2:
+        name = dataFile[numberRow].split(';')[0]
+        surname = dataFile[numberRow].split(';')[1]
+        phone = dataFile[numberRow].split(';')[2]
+        address = dataFile[numberRow].split(';')[3]
+
+    if parameter == 1:
+        name = name_data()
+    elif parameter == 2:
+        surname = surname_data()
+    elif parameter == 3:
+        phone = phone_data()
+    elif parameter == 4:
+        address = address_data()
+
+    if numberFile == 1:
+        data_first = dataFile[:numberRow] + [f'{name}\n{surname}\n{phone}\n{address}'] + \
+                     dataFile[numberRow + 1:]
+        if numberRow + 1 == len(dataFile):
+            data_first = dataFile[:numberRow] + [f'{name}\n{surname}\n{phone}\n{address}\n']
+        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+            file.write(''.join(data_first))
+        print('Изменения успешно сохранены!')
+    else:
+        data_second = dataFile[:numberRow] + [f'{name};{surname};{phone};{address}'] + \
+                      dataFile[numberRow + 1:]
+        if numberRow + 1 == len(dataFile):
+            data_second = dataFile[:numberRow] + [f'{name};{surname};{phone};{address}\n']
+        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+            file.write(''.join(data_second))
+        print('Изменения успешно сохранены!')
 
 def put_data():
     print('Из какого файла Вы хотите изменить данные?')
@@ -63,14 +105,24 @@ def put_data():
         number_journal -= 1
         # Можно добавить проверку, чтобы человек не выходил за пределы записей
         print(f'Изменить данную запись\n{data_first[number_journal]}')
-        name = name_data()
-        surname = surname_data()
-        phone = phone_data()
-        address = address_data()
-        data_first = data_first[:number_journal] + [f'{name}\n{surname}\n{phone}\n{address}\n'] + \
+        print('Выберите вариант, что именно хотите изменить:\n'
+              '1. Имя \n'
+              '2. Фамилию \n'
+              '3. Телефон \n'
+              '4. Адрес \n'
+              '5. Все данные \n')
+        parameter = int(input("Введите ответ: "))
+        if 1 <= parameter <= 4:
+            change_some_data(data_first, number_journal, 1, parameter)   
+        elif parameter == 5:
+            name = name_data()
+            surname = surname_data()
+            phone = phone_data()
+            address = address_data()
+            data_first = data_first[:number_journal] + [f'{name}\n{surname}\n{phone}\n{address}\n'] + \
                      data_first[number_journal + 1:]
-        with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
-            file.write(''.join(data_first))
+            with open('data_first_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_first))
         print('Изменения успешно сохранены!')
     else:
         print("Какую именно запись по счету Вы хотите изменить?")
@@ -78,14 +130,24 @@ def put_data():
         number_journal -= 1
         # Можно добавить проверку, чтобы человек не выходил за пределы записи
         print(f'Изменить данную запись\n{data_second[number_journal]}')
-        name = name_data()
-        surname = surname_data()
-        phone = phone_data()
-        address = address_data()
-        data_second = data_second[:number_journal] + [f'{name};{surname};{phone};{address}\n'] + \
+        print('Выберите вариант, что именно хотите изменить:\n'
+              '1. Имя \n'
+              '2. Фамилию \n'
+              '3. Телефон \n'
+              '4. Адрес \n'
+              '5. Все данные \n')
+        parameter = int(input("Введите ответ: "))
+        if 1 <= parameter <= 4:
+            change_some_data(data_second, number_journal, 2, parameter)   
+        elif parameter == 5:
+            name = name_data()
+            surname = surname_data()
+            phone = phone_data()
+            address = address_data()
+            data_second = data_second[:number_journal] + [f'{name};{surname};{phone};{address}\n'] + \
                       data_second[number_journal + 1:]
-        with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
-            file.write(''.join(data_second))
+            with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
+                file.write(''.join(data_second))
         print('Изменения успешно сохранены!')  # Можно вывести конечные данные
 
 
@@ -116,3 +178,4 @@ def delete_data():
         with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
             file.write(''.join(data_second))
         print('Изменения успешно сохранены!')  # Можно вывести конечные данные
+        
