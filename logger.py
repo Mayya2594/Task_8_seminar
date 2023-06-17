@@ -48,11 +48,6 @@ def print_data():
     return data_first, data_second
 
 def change_some_data(dataFile, numberRow, numberFile, parameter):
-    # answer = input(f"Изменить данную запись\n{dataFile[numberRow]}?\nВведите ответ: ")
-    # while answer != 'да':
-    #     numberRow = int(input('Введите номер записи: ')) - 1
-
-    # print(f"Меняем данную запись\n{dataFile[numberRow]}\n")
     if numberFile == 1:
         name = dataFile[numberRow].split('\n')[0]
         surname = dataFile[numberRow].split('\n')[1]
@@ -178,4 +173,3 @@ def delete_data():
         with open('data_second_variant.csv', 'w', encoding='utf-8') as file:
             file.write(''.join(data_second))
         print('Изменения успешно сохранены!')  # Можно вывести конечные данные
-        
